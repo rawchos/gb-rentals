@@ -1,4 +1,5 @@
 (ns gb-rentals.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:search-text ""
+   :active-page :search})

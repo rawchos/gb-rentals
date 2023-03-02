@@ -1,8 +1,10 @@
 (ns gb-rentals.subs
-  (:require
-   [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as rf]))
 
-(re-frame/reg-sub
- ::name
- (fn [db]
-   (:name db)))
+(rf/reg-sub
+ ::active-page
+ (fn [db] (:active-page db)))
+
+(rf/reg-sub
+ ::search-text
+ (fn [db] (:search-text db)))

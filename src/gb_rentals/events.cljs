@@ -1,10 +1,14 @@
 (ns gb-rentals.events
-  (:require
-   [re-frame.core :as re-frame]
-   [gb-rentals.db :as db]
-   ))
+  (:require [re-frame.core :as rf]
+            [gb-rentals.db :as db]))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::initialize-db
  (fn [_ _]
    db/default-db))
+
+
+(rf/reg-event-fx 
+ :search
+ (fn [cofx [_ search-text]]
+   {:db (assoc-in (:db cofx) [:search-text] search-text)}))
