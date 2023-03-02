@@ -3,6 +3,26 @@
             [re-frame.core :as rf]
             [gb-rentals.subs :as subs]))
 
+(defn api-key
+  []
+  (let [text-input (reagent/atom {:api-key ""})]
+    (fn []
+      (let [{:keys [api-key]} @text-input
+            add-api-key (fn [event api-key]
+                          (.preventDefault event)
+                          (rf/dispatch [:add-api-key api-key]))]
+        [:div.container.page
+         [:div.row
+          [:div.col-md-6.offset-md-3.col-xs-12
+           [:form {:on-submit #(add-api-key % (:api-key @text-input))}
+            [:fieldset.form-group
+             [:input.form-control.form-control-lg {:type        "text"
+                                                   :placeholder "Giant Bomb API Key"
+                                                   :value       api-key
+                                                   :on-change   #(swap! text-input assoc :api-key (-> % .-target .-value))
+                                                   :disabled    false}]]
+            [:button.btn.btn-lg.btn-primary.pull-xs-right "Add API Key"]]]]]))))
+
 (defn search
   []
   (let [text-input (reagent/atom {:search-text ""})]
@@ -26,8 +46,9 @@
 (defn pages
   [page-name]
   (case page-name
+    :api-key [api-key]
     :search [search]
-    [search]))
+    [api-key]))
 
 ;; TODO: Probably add a header and footer for this
 (defn main-panel []

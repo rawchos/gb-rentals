@@ -8,3 +8,7 @@
 (rf/reg-sub
  ::search-text
  (fn [db] (:search-text db)))
+
+(rf/reg-sub
+ ::api-key
+ (fn [db] (:api-key db)))
