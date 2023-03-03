@@ -30,7 +30,7 @@
       (let [{:keys [search-text]} @text-input
             search-games (fn [event search-text]
                            (.preventDefault event)
-                           (rf/dispatch [:search search-text]))]
+                           (rf/dispatch [:search-games search-text]))]
         [:div.container.page
          [:div.row
           [:div.col-md-6.offset-md-3.col-xs-12
@@ -43,8 +43,7 @@
                                                    :disabled    false}]]
             [:button.btn.btn-lg.btn-primary.pull-xs-right "Search"]]]]]))))
 
-(defn pages
-  [page-name]
+(defn pages [page-name]
   (case page-name
     :api-key [api-key]
     :search [search]
