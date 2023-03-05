@@ -30,7 +30,7 @@
 (rf/reg-event-fx
  :search-games-success
  (fn [{:keys [db]} [_ {:keys [results]}]]
-   {:dispatch [:set-active-page :search-results]
+   {; :dispatch [:set-active-page :search-results]
     :db (assoc db :search-results results)}))
 
 (rf/reg-event-db
