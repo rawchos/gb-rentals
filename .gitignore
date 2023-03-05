@@ -1,10 +1,12 @@
 /out/
 /resources/public/js/compiled/
+/resources/config.edn
 /target/
 /*-init.clj
 /*.log
 /*.clj-kondo/
 /.lsp/
+/.calva/
 
 # Leiningen
 /.lein-*

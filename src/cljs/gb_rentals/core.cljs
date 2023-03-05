@@ -1,11 +1,9 @@
 (ns gb-rentals.core
-  (:require
-   [reagent.dom :as rdom]
-   [re-frame.core :as re-frame]
-   [gb-rentals.events :as events]
-   [gb-rentals.views :as views]
-   [gb-rentals.config :as config]
-   ))
+  (:require [reagent.dom :as rdom]
+            [re-frame.core :as re-frame]
+            [gb-rentals.events :as events]
+            [gb-rentals.views :as views]
+            [gb-rentals.config :as config]))
 
 
 (defn dev-setup []
