@@ -18,8 +18,8 @@
 .game-header img {
   display: inline-block;
   vertical-align: middle;
-  height: 32px;
-  width: 32px;
+  height: 96px;
+  width: 96px;
   border-radius: 30px; }
 
   .game-container {
@@ -53,5 +53,3 @@
         font-size: 0.8rem !important;
         padding-top: 0px !important;
         padding-bottom: 0px !important; }
-  
-    

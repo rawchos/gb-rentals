@@ -33,8 +33,17 @@
        [:div.col-xs-12.col-md-10.offset-md-1
         [games-list results]]]]]))
 
+(defn current-rentals []
+  (let [rented-games @(rf/subscribe [::subs/rented-games])]
+    [:div.current-rentals
+     [:div.container
+      [:div.row
+       [:div.col-xs-12.col-md-10.offset-md-1
+        [games-list (flatten (vals rented-games))]]]]]))
+
 (defn search []
-  (let [text-input (reagent/atom {:search-text ""})]
+  (let [current-search @(rf/subscribe [::subs/search-text])
+        text-input (reagent/atom {:search-text current-search})]
     (fn []
       (let [{:keys [search-text]} @text-input
             search-games (fn [event search-text]
@@ -52,14 +61,34 @@
                                                    :disabled    false}]]
             [:button.btn.btn-lg.btn-primary.pull-xs-right "Search"]]]]]))))
 
+(defn header []
+  (let [active-page @(rf/subscribe [::subs/active-page])
+        search-results @(rf/subscribe [::subs/search-results])
+        rented-games @(rf/subscribe [::subs/rented-games])]
+    [:nav.navbar.navbar-light
+     [:div.container
+      [:ul.nav.navbar-nav.pull-xs-right
+       [:li.nav-item
+        [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :search])
+                      :class (when (= active-page :search) "active")} "Search"]]
+       (when (seq search-results)
+         [:li.nav-item
+          [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :search-results])
+                        :class (when (= active-page :search-results) "active")} "Search Results"]])
+       (when (seq rented-games)
+         [:li.nav-item
+          [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :current-rentals])
+                        :class (when (= active-page :current-rentals) "active")} "Current Rentals"]])]]]))
+
 (defn pages [page-name]
   (case page-name
     :search [search]
     :search-results [search-results]
+    :current-rentals [current-rentals]
     [search]))
 
-;; TODO: Probably add a header and footer for this
 (defn main-panel []
   (let [active-page @(rf/subscribe [::subs/active-page])]
     [:div
+     [header]
      [pages active-page]]))

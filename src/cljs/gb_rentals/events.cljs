@@ -20,7 +20,6 @@
 (rf/reg-event-fx 
  :search-games
  (fn [{:keys [db]} [_ search-text]]
-   (js/console.log "searching for " search-text)
    {:http-xhrio {:method          :get
                  :uri             (str base-url "search")
                  :params          {:query search-text}
@@ -30,8 +29,7 @@
 
 (rf/reg-event-fx
  :search-games-success
- (fn [{:keys [db]} [_ {:keys [numberOfPageResults results]}]]
-   (js/console.log "Received " numberOfPageResults " results. [" (count results) "]")
+ (fn [{:keys [db]} [_ {:keys [results]}]]
    {:dispatch [:set-active-page :search-results]
     :db (assoc db :search-results results)}))
 
