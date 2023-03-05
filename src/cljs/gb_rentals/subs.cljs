@@ -10,5 +10,9 @@
  (fn [db] (:search-text db)))
 
 (rf/reg-sub
- ::api-key
- (fn [db] (:api-key db)))
+ ::search-results
+ (fn [db] (:search-results db)))
+
+(rf/reg-sub
+ ::rented-games
+ (fn [db] (:rented-games db)))

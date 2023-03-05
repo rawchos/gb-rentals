@@ -10,3 +10,48 @@
     color: #fff;
     background-color: #0751A9;
     border-color: #0751A9; }
+
+.game-header {
+  display: block;
+  position: relative;
+  font-weight: 300; }
+.game-header img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 32px;
+  width: 32px;
+  border-radius: 30px; }
+
+  .game-container {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0; }
+    .game-container .game-header {
+      margin: 0 0 1rem 0; }
+    .game-container .game-description h1 {
+      font-weight: 600 !important;
+      font-size: 1.5rem !important;
+      margin-bottom: 3px; }
+    .game-container .game-description p {
+      font-weight: 300;
+      font-size: 24px;
+      color: #999;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.3rem; }
+    .game-container .game-description span {
+      max-width: 30%;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #bbb;
+      vertical-align: middle; }
+    .game-container .game-description ul {
+      float: right;
+      max-width: 50%;
+      vertical-align: top; }
+      .game-container .game-description ul li {
+        font-weight: 300;
+        font-size: 0.8rem !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important; }
+  
+    

@@ -7,6 +7,11 @@
 ;; TODO: Ideally, this would be configurable by env. Good enough for now.
 (def base-url "http://localhost:3000/api/games/")
 
+(defn find-game [db guid]
+  (->> (:search-results db)
+       (filter #(= guid (:guid %)))
+       first))
+
 (rf/reg-event-db
  ::initialize-db
  (fn [_ _]
@@ -23,11 +28,19 @@
                  :on-success      [:search-games-success]}
     :db (assoc db :search-text search-text)}))
 
-(rf/reg-event-db
+(rf/reg-event-fx
  :search-games-success
- (fn [db [_ {:keys [numberOfPageResults results]}]]
+ (fn [{:keys [db]} [_ {:keys [numberOfPageResults results]}]]
    (js/console.log "Received " numberOfPageResults " results. [" (count results) "]")
-   (assoc db :search-results results)))
+   {:dispatch [:set-active-page :search-results]
+    :db (assoc db :search-results results)}))
+
+(rf/reg-event-db
+ :toggle-rental
+ (fn [db [_ guid]]
+   (if-let [_game (get-in db [:rented-games guid])]
+     (update-in db [:rented-games] dissoc guid)
+     (update-in db [:rented-games] assoc guid (find-game db guid)))))
 
 (rf/reg-event-db
  :set-active-page
