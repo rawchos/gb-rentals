@@ -14,5 +14,5 @@
  (fn [db] (:search-results db)))
 
 (rf/reg-sub
- ::rented-games
- (fn [db] (:rented-games db)))
+ ::games-to-rent
+ (fn [db] (:games-to-rent db)))

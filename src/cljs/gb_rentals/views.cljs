@@ -5,17 +5,17 @@
 
 (defn game-preview
   [{:keys [name deck image guid]}]
-  (let [rentals @(rf/subscribe [::subs/rented-games])
+  (let [rentals @(rf/subscribe [::subs/games-to-rent])
         image-url (:superUrl image)
-        rented? (fn [guid]
+        in-cart? (fn [guid]
                   (-> (keys rentals)
                       (set)
                       (contains? guid)))]
     [:div.game-container 
      [:div.game-header 
       [:img {:src image-url :alt "Game Image"}]
-      [:button.btn.btn-primary.btn-sm.pull-xs-right {:on-click #(rf/dispatch [:toggle-rental guid])}
-       (if (rented? guid) "Return" "Rent")]]
+      [:button.btn.btn-primary.btn-sm.pull-xs-right {:on-click #(rf/dispatch [:toggle-cart guid])}
+       (if (in-cart? guid) "Remove from Cart" "Add to Cart")]]
      [:div.game-description 
       [:h1 name]
       [:p deck]]]))
@@ -33,13 +33,13 @@
        [:div.col-xs-12.col-md-10.offset-md-1
         [games-list results]]]]]))
 
-(defn current-rentals []
-  (let [rented-games @(rf/subscribe [::subs/rented-games])]
+(defn cart []
+  (let [games-to-rent @(rf/subscribe [::subs/games-to-rent])]
     [:div.current-rentals
      [:div.container
       [:div.row
        [:div.col-xs-12.col-md-10.offset-md-1
-        [games-list (flatten (vals rented-games))]]]]]))
+        [games-list (flatten (vals games-to-rent))]]]]]))
 
 (defn search-form []
   (let [current-search @(rf/subscribe [::subs/search-text])
@@ -64,17 +64,17 @@
 
 (defn header []
   (let [active-page @(rf/subscribe [::subs/active-page])
-        rented-games @(rf/subscribe [::subs/rented-games])]
+        games-to-rent @(rf/subscribe [::subs/games-to-rent])]
     [:nav.navbar.navbar-light
      [:div.container
       [:ul.nav.navbar-nav.pull-xs-right
        [:li.nav-item
         [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :search])
                       :class (when (= active-page :search) "active")} "Search"]]
-       (when (seq rented-games)
+       (when (seq games-to-rent)
          [:li.nav-item
-          [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :current-rentals])
-                        :class (when (= active-page :current-rentals) "active")} "Current Rentals"]])]]]))
+          [:a.nav-link {:on-click #(rf/dispatch [:set-active-page :cart])
+                        :class (when (= active-page :cart) "active")} "Cart"]])]]]))
 
 (defn search []
   [:div.container.page
@@ -84,7 +84,7 @@
 (defn pages [page-name]
   (case page-name
     :search [search]
-    :current-rentals [current-rentals]
+    :cart [cart]
     [search]))
 
 (defn main-panel []

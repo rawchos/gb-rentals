@@ -3,5 +3,5 @@
 (def default-db
   {:search-text ""
    :search-results []
-   :rented-games {}
+   :games-to-rent {}
    :active-page :search})

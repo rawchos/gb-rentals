@@ -30,15 +30,14 @@
 (rf/reg-event-fx
  :search-games-success
  (fn [{:keys [db]} [_ {:keys [results]}]]
-   {; :dispatch [:set-active-page :search-results]
-    :db (assoc db :search-results results)}))
+   {:db (assoc db :search-results results)}))
 
 (rf/reg-event-db
- :toggle-rental
+ :toggle-cart
  (fn [db [_ guid]]
-   (if-let [_game (get-in db [:rented-games guid])]
-     (update-in db [:rented-games] dissoc guid)
-     (update-in db [:rented-games] assoc guid (find-game db guid)))))
+   (if-let [_game (get-in db [:games-to-rent guid])]
+     (update-in db [:games-to-rent] dissoc guid)
+     (update-in db [:games-to-rent] assoc guid (find-game db guid)))))
 
 (rf/reg-event-db
  :set-active-page
